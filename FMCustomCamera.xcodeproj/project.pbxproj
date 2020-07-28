@@ -1,0 +1,792 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		227CB06F50997348F4912865 /* Pods_FMCustomCamera_FMCustomCameraUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1C473885F9442AC63FC88E5 /* Pods_FMCustomCamera_FMCustomCameraUITests.framework */; };
+		49817511463F106C7E8E0F92 /* Pods_FMCustomCamera.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F06C67057EAA37FAA1046B9E /* Pods_FMCustomCamera.framework */; };
+		73CAF7018389E91EFC10DCA6 /* Pods_FMCustomCameraTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8C529C87ABC98194EDBC8F3 /* Pods_FMCustomCameraTests.framework */; };
+		9722C82724CFFC0000562F40 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9722C82624CFFC0000562F40 /* AppDelegate.swift */; };
+		9722C83024CFFC0100562F40 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9722C82F24CFFC0100562F40 /* Assets.xcassets */; };
+		9722C83324CFFC0100562F40 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9722C83124CFFC0100562F40 /* LaunchScreen.storyboard */; };
+		9722C83E24CFFC0100562F40 /* FMCustomCameraTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9722C83D24CFFC0100562F40 /* FMCustomCameraTests.swift */; };
+		9722C84924CFFC0200562F40 /* FMCustomCameraUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9722C84824CFFC0200562F40 /* FMCustomCameraUITests.swift */; };
+		9722C85924CFFD4800562F40 /* FMRootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9722C85824CFFD4800562F40 /* FMRootViewController.swift */; };
+		9722C85B24CFFD7A00562F40 /* FMCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9722C85A24CFFD7A00562F40 /* FMCameraView.swift */; };
+		9722C85D24CFFF1A00562F40 /* FMCustomCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9722C85C24CFFF1A00562F40 /* FMCustomCameraViewController.swift */; };
+		9722C85F24D000C300562F40 /* FMMotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9722C85E24D000C300562F40 /* FMMotionManager.swift */; };
+		9722C86124D0010700562F40 /* FMVideoPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9722C86024D0010700562F40 /* FMVideoPreview.swift */; };
+		9722C86324D0018700562F40 /* FMMovieManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9722C86224D0018700562F40 /* FMMovieManager.swift */; };
+		9722C86524D001A200562F40 /* FMCameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9722C86424D001A200562F40 /* FMCameraManager.swift */; };
+		9722C86724D0028300562F40 /* FMCameraNotAuthorizedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9722C86624D0028300562F40 /* FMCameraNotAuthorizedView.swift */; };
+		9722C86A24D003DE00562F40 /* FMTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9722C86924D003DE00562F40 /* FMTool.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9722C83A24CFFC0100562F40 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9722C81B24CFFC0000562F40 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9722C82224CFFC0000562F40;
+			remoteInfo = FMCustomCamera;
+		};
+		9722C84524CFFC0200562F40 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9722C81B24CFFC0000562F40 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9722C82224CFFC0000562F40;
+			remoteInfo = FMCustomCamera;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1603A10BBAB0203ABCEE9406 /* Pods-FMCustomCamera-FMCustomCameraUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FMCustomCamera-FMCustomCameraUITests.release.xcconfig"; path = "Target Support Files/Pods-FMCustomCamera-FMCustomCameraUITests/Pods-FMCustomCamera-FMCustomCameraUITests.release.xcconfig"; sourceTree = "<group>"; };
+		181CF89BC437CFC599536906 /* Pods-FMCustomCamera-FMCustomCameraUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FMCustomCamera-FMCustomCameraUITests.debug.xcconfig"; path = "Target Support Files/Pods-FMCustomCamera-FMCustomCameraUITests/Pods-FMCustomCamera-FMCustomCameraUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		3EB3618660E05DEA6D92C307 /* Pods-FMCustomCameraTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FMCustomCameraTests.release.xcconfig"; path = "Target Support Files/Pods-FMCustomCameraTests/Pods-FMCustomCameraTests.release.xcconfig"; sourceTree = "<group>"; };
+		9722C82324CFFC0000562F40 /* FMCustomCamera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FMCustomCamera.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9722C82624CFFC0000562F40 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9722C82F24CFFC0100562F40 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9722C83224CFFC0100562F40 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9722C83424CFFC0100562F40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9722C83924CFFC0100562F40 /* FMCustomCameraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FMCustomCameraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9722C83D24CFFC0100562F40 /* FMCustomCameraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMCustomCameraTests.swift; sourceTree = "<group>"; };
+		9722C83F24CFFC0100562F40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9722C84424CFFC0200562F40 /* FMCustomCameraUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FMCustomCameraUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9722C84824CFFC0200562F40 /* FMCustomCameraUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMCustomCameraUITests.swift; sourceTree = "<group>"; };
+		9722C84A24CFFC0200562F40 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9722C85824CFFD4800562F40 /* FMRootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMRootViewController.swift; sourceTree = "<group>"; };
+		9722C85A24CFFD7A00562F40 /* FMCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMCameraView.swift; sourceTree = "<group>"; };
+		9722C85C24CFFF1A00562F40 /* FMCustomCameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMCustomCameraViewController.swift; sourceTree = "<group>"; };
+		9722C85E24D000C300562F40 /* FMMotionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMMotionManager.swift; sourceTree = "<group>"; };
+		9722C86024D0010700562F40 /* FMVideoPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMVideoPreview.swift; sourceTree = "<group>"; };
+		9722C86224D0018700562F40 /* FMMovieManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMMovieManager.swift; sourceTree = "<group>"; };
+		9722C86424D001A200562F40 /* FMCameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMCameraManager.swift; sourceTree = "<group>"; };
+		9722C86624D0028300562F40 /* FMCameraNotAuthorizedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMCameraNotAuthorizedView.swift; sourceTree = "<group>"; };
+		9722C86924D003DE00562F40 /* FMTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMTool.swift; sourceTree = "<group>"; };
+		B1C473885F9442AC63FC88E5 /* Pods_FMCustomCamera_FMCustomCameraUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FMCustomCamera_FMCustomCameraUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B8C529C87ABC98194EDBC8F3 /* Pods_FMCustomCameraTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FMCustomCameraTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAA9CEEDCA7A7554736956DE /* Pods-FMCustomCamera.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FMCustomCamera.release.xcconfig"; path = "Target Support Files/Pods-FMCustomCamera/Pods-FMCustomCamera.release.xcconfig"; sourceTree = "<group>"; };
+		BBBE5F9C7AFBC84137D324CF /* Pods-FMCustomCamera.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FMCustomCamera.debug.xcconfig"; path = "Target Support Files/Pods-FMCustomCamera/Pods-FMCustomCamera.debug.xcconfig"; sourceTree = "<group>"; };
+		D3C12D827255A9390F39509F /* Pods-FMCustomCameraTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FMCustomCameraTests.debug.xcconfig"; path = "Target Support Files/Pods-FMCustomCameraTests/Pods-FMCustomCameraTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F06C67057EAA37FAA1046B9E /* Pods_FMCustomCamera.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FMCustomCamera.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9722C82024CFFC0000562F40 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49817511463F106C7E8E0F92 /* Pods_FMCustomCamera.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9722C83624CFFC0100562F40 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73CAF7018389E91EFC10DCA6 /* Pods_FMCustomCameraTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9722C84124CFFC0200562F40 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				227CB06F50997348F4912865 /* Pods_FMCustomCamera_FMCustomCameraUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9722C81A24CFFC0000562F40 = {
+			isa = PBXGroup;
+			children = (
+				9722C82524CFFC0000562F40 /* FMCustomCamera */,
+				9722C83C24CFFC0100562F40 /* FMCustomCameraTests */,
+				9722C84724CFFC0200562F40 /* FMCustomCameraUITests */,
+				9722C82424CFFC0000562F40 /* Products */,
+				D2D659D07ECD6F38CDEA9202 /* Pods */,
+				BAE5E2747CE687568DAAF05D /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		9722C82424CFFC0000562F40 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9722C82324CFFC0000562F40 /* FMCustomCamera.app */,
+				9722C83924CFFC0100562F40 /* FMCustomCameraTests.xctest */,
+				9722C84424CFFC0200562F40 /* FMCustomCameraUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9722C82524CFFC0000562F40 /* FMCustomCamera */ = {
+			isa = PBXGroup;
+			children = (
+				9722C85724CFFD0300562F40 /* Classes */,
+				9722C85624CFFD0300562F40 /* CustomUI */,
+				9722C82624CFFC0000562F40 /* AppDelegate.swift */,
+				9722C82F24CFFC0100562F40 /* Assets.xcassets */,
+				9722C83124CFFC0100562F40 /* LaunchScreen.storyboard */,
+				9722C83424CFFC0100562F40 /* Info.plist */,
+				9722C85824CFFD4800562F40 /* FMRootViewController.swift */,
+			);
+			path = FMCustomCamera;
+			sourceTree = "<group>";
+		};
+		9722C83C24CFFC0100562F40 /* FMCustomCameraTests */ = {
+			isa = PBXGroup;
+			children = (
+				9722C83D24CFFC0100562F40 /* FMCustomCameraTests.swift */,
+				9722C83F24CFFC0100562F40 /* Info.plist */,
+			);
+			path = FMCustomCameraTests;
+			sourceTree = "<group>";
+		};
+		9722C84724CFFC0200562F40 /* FMCustomCameraUITests */ = {
+			isa = PBXGroup;
+			children = (
+				9722C84824CFFC0200562F40 /* FMCustomCameraUITests.swift */,
+				9722C84A24CFFC0200562F40 /* Info.plist */,
+			);
+			path = FMCustomCameraUITests;
+			sourceTree = "<group>";
+		};
+		9722C85624CFFD0300562F40 /* CustomUI */ = {
+			isa = PBXGroup;
+			children = (
+				9722C85A24CFFD7A00562F40 /* FMCameraView.swift */,
+				9722C85C24CFFF1A00562F40 /* FMCustomCameraViewController.swift */,
+				9722C86624D0028300562F40 /* FMCameraNotAuthorizedView.swift */,
+			);
+			path = CustomUI;
+			sourceTree = "<group>";
+		};
+		9722C85724CFFD0300562F40 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				9722C86824D003D200562F40 /* Utils */,
+				9722C86024D0010700562F40 /* FMVideoPreview.swift */,
+				9722C85E24D000C300562F40 /* FMMotionManager.swift */,
+				9722C86224D0018700562F40 /* FMMovieManager.swift */,
+				9722C86424D001A200562F40 /* FMCameraManager.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		9722C86824D003D200562F40 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				9722C86924D003DE00562F40 /* FMTool.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		BAE5E2747CE687568DAAF05D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F06C67057EAA37FAA1046B9E /* Pods_FMCustomCamera.framework */,
+				B1C473885F9442AC63FC88E5 /* Pods_FMCustomCamera_FMCustomCameraUITests.framework */,
+				B8C529C87ABC98194EDBC8F3 /* Pods_FMCustomCameraTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D2D659D07ECD6F38CDEA9202 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BBBE5F9C7AFBC84137D324CF /* Pods-FMCustomCamera.debug.xcconfig */,
+				BAA9CEEDCA7A7554736956DE /* Pods-FMCustomCamera.release.xcconfig */,
+				181CF89BC437CFC599536906 /* Pods-FMCustomCamera-FMCustomCameraUITests.debug.xcconfig */,
+				1603A10BBAB0203ABCEE9406 /* Pods-FMCustomCamera-FMCustomCameraUITests.release.xcconfig */,
+				D3C12D827255A9390F39509F /* Pods-FMCustomCameraTests.debug.xcconfig */,
+				3EB3618660E05DEA6D92C307 /* Pods-FMCustomCameraTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9722C82224CFFC0000562F40 /* FMCustomCamera */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9722C84D24CFFC0200562F40 /* Build configuration list for PBXNativeTarget "FMCustomCamera" */;
+			buildPhases = (
+				E49F0BB871A75E39F2489CAE /* [CP] Check Pods Manifest.lock */,
+				9722C81F24CFFC0000562F40 /* Sources */,
+				9722C82024CFFC0000562F40 /* Frameworks */,
+				9722C82124CFFC0000562F40 /* Resources */,
+				1E55FCBDEA4E01F0831415E5 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FMCustomCamera;
+			productName = FMCustomCamera;
+			productReference = 9722C82324CFFC0000562F40 /* FMCustomCamera.app */;
+			productType = "com.apple.product-type.application";
+		};
+		9722C83824CFFC0100562F40 /* FMCustomCameraTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9722C85024CFFC0200562F40 /* Build configuration list for PBXNativeTarget "FMCustomCameraTests" */;
+			buildPhases = (
+				18F3A2A523D562DA1B75A175 /* [CP] Check Pods Manifest.lock */,
+				9722C83524CFFC0100562F40 /* Sources */,
+				9722C83624CFFC0100562F40 /* Frameworks */,
+				9722C83724CFFC0100562F40 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9722C83B24CFFC0100562F40 /* PBXTargetDependency */,
+			);
+			name = FMCustomCameraTests;
+			productName = FMCustomCameraTests;
+			productReference = 9722C83924CFFC0100562F40 /* FMCustomCameraTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		9722C84324CFFC0200562F40 /* FMCustomCameraUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9722C85324CFFC0200562F40 /* Build configuration list for PBXNativeTarget "FMCustomCameraUITests" */;
+			buildPhases = (
+				FAEE49D41ED35B422224E087 /* [CP] Check Pods Manifest.lock */,
+				9722C84024CFFC0200562F40 /* Sources */,
+				9722C84124CFFC0200562F40 /* Frameworks */,
+				9722C84224CFFC0200562F40 /* Resources */,
+				BC03F6BADAFAAD001D950658 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9722C84624CFFC0200562F40 /* PBXTargetDependency */,
+			);
+			name = FMCustomCameraUITests;
+			productName = FMCustomCameraUITests;
+			productReference = 9722C84424CFFC0200562F40 /* FMCustomCameraUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9722C81B24CFFC0000562F40 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1150;
+				LastUpgradeCheck = 1150;
+				ORGANIZATIONNAME = tataUFO;
+				TargetAttributes = {
+					9722C82224CFFC0000562F40 = {
+						CreatedOnToolsVersion = 11.5;
+					};
+					9722C83824CFFC0100562F40 = {
+						CreatedOnToolsVersion = 11.5;
+						TestTargetID = 9722C82224CFFC0000562F40;
+					};
+					9722C84324CFFC0200562F40 = {
+						CreatedOnToolsVersion = 11.5;
+						TestTargetID = 9722C82224CFFC0000562F40;
+					};
+				};
+			};
+			buildConfigurationList = 9722C81E24CFFC0000562F40 /* Build configuration list for PBXProject "FMCustomCamera" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 9722C81A24CFFC0000562F40;
+			productRefGroup = 9722C82424CFFC0000562F40 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9722C82224CFFC0000562F40 /* FMCustomCamera */,
+				9722C83824CFFC0100562F40 /* FMCustomCameraTests */,
+				9722C84324CFFC0200562F40 /* FMCustomCameraUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9722C82124CFFC0000562F40 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9722C83324CFFC0100562F40 /* LaunchScreen.storyboard in Resources */,
+				9722C83024CFFC0100562F40 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9722C83724CFFC0100562F40 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9722C84224CFFC0200562F40 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		18F3A2A523D562DA1B75A175 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FMCustomCameraTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1E55FCBDEA4E01F0831415E5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FMCustomCamera/Pods-FMCustomCamera-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FMCustomCamera/Pods-FMCustomCamera-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FMCustomCamera/Pods-FMCustomCamera-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BC03F6BADAFAAD001D950658 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FMCustomCamera-FMCustomCameraUITests/Pods-FMCustomCamera-FMCustomCameraUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FMCustomCamera-FMCustomCameraUITests/Pods-FMCustomCamera-FMCustomCameraUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FMCustomCamera-FMCustomCameraUITests/Pods-FMCustomCamera-FMCustomCameraUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E49F0BB871A75E39F2489CAE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FMCustomCamera-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FAEE49D41ED35B422224E087 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FMCustomCamera-FMCustomCameraUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9722C81F24CFFC0000562F40 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9722C85B24CFFD7A00562F40 /* FMCameraView.swift in Sources */,
+				9722C82724CFFC0000562F40 /* AppDelegate.swift in Sources */,
+				9722C86724D0028300562F40 /* FMCameraNotAuthorizedView.swift in Sources */,
+				9722C86324D0018700562F40 /* FMMovieManager.swift in Sources */,
+				9722C85F24D000C300562F40 /* FMMotionManager.swift in Sources */,
+				9722C86124D0010700562F40 /* FMVideoPreview.swift in Sources */,
+				9722C85924CFFD4800562F40 /* FMRootViewController.swift in Sources */,
+				9722C85D24CFFF1A00562F40 /* FMCustomCameraViewController.swift in Sources */,
+				9722C86A24D003DE00562F40 /* FMTool.swift in Sources */,
+				9722C86524D001A200562F40 /* FMCameraManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9722C83524CFFC0100562F40 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9722C83E24CFFC0100562F40 /* FMCustomCameraTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9722C84024CFFC0200562F40 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9722C84924CFFC0200562F40 /* FMCustomCameraUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9722C83B24CFFC0100562F40 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9722C82224CFFC0000562F40 /* FMCustomCamera */;
+			targetProxy = 9722C83A24CFFC0100562F40 /* PBXContainerItemProxy */;
+		};
+		9722C84624CFFC0200562F40 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9722C82224CFFC0000562F40 /* FMCustomCamera */;
+			targetProxy = 9722C84524CFFC0200562F40 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		9722C83124CFFC0100562F40 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9722C83224CFFC0100562F40 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9722C84B24CFFC0200562F40 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		9722C84C24CFFC0200562F40 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9722C84E24CFFC0200562F40 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BBBE5F9C7AFBC84137D324CF /* Pods-FMCustomCamera.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6AS4N82Q9E;
+				INFOPLIST_FILE = FMCustomCamera/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ufo.FMCustomCamera;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		9722C84F24CFFC0200562F40 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BAA9CEEDCA7A7554736956DE /* Pods-FMCustomCamera.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6AS4N82Q9E;
+				INFOPLIST_FILE = FMCustomCamera/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ufo.FMCustomCamera;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		9722C85124CFFC0200562F40 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D3C12D827255A9390F39509F /* Pods-FMCustomCameraTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6AS4N82Q9E;
+				INFOPLIST_FILE = FMCustomCameraTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ufo.FMCustomCameraTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FMCustomCamera.app/FMCustomCamera";
+			};
+			name = Debug;
+		};
+		9722C85224CFFC0200562F40 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3EB3618660E05DEA6D92C307 /* Pods-FMCustomCameraTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6AS4N82Q9E;
+				INFOPLIST_FILE = FMCustomCameraTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ufo.FMCustomCameraTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FMCustomCamera.app/FMCustomCamera";
+			};
+			name = Release;
+		};
+		9722C85424CFFC0200562F40 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 181CF89BC437CFC599536906 /* Pods-FMCustomCamera-FMCustomCameraUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6AS4N82Q9E;
+				INFOPLIST_FILE = FMCustomCameraUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ufo.FMCustomCameraUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FMCustomCamera;
+			};
+			name = Debug;
+		};
+		9722C85524CFFC0200562F40 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1603A10BBAB0203ABCEE9406 /* Pods-FMCustomCamera-FMCustomCameraUITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6AS4N82Q9E;
+				INFOPLIST_FILE = FMCustomCameraUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = ufo.FMCustomCameraUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = FMCustomCamera;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9722C81E24CFFC0000562F40 /* Build configuration list for PBXProject "FMCustomCamera" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9722C84B24CFFC0200562F40 /* Debug */,
+				9722C84C24CFFC0200562F40 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9722C84D24CFFC0200562F40 /* Build configuration list for PBXNativeTarget "FMCustomCamera" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9722C84E24CFFC0200562F40 /* Debug */,
+				9722C84F24CFFC0200562F40 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9722C85024CFFC0200562F40 /* Build configuration list for PBXNativeTarget "FMCustomCameraTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9722C85124CFFC0200562F40 /* Debug */,
+				9722C85224CFFC0200562F40 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9722C85324CFFC0200562F40 /* Build configuration list for PBXNativeTarget "FMCustomCameraUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9722C85424CFFC0200562F40 /* Debug */,
+				9722C85524CFFC0200562F40 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9722C81B24CFFC0000562F40 /* Project object */;
+}
