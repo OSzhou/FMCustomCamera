@@ -8,11 +8,6 @@
 
 import UIKit
 
-// MARK: 屏幕高度
-let screenHeight: CGFloat = UIScreen.main.bounds.height
-// MARK: 屏幕宽度
-let screenWidth: CGFloat = UIScreen.main.bounds.width
-
 class FMRootViewController: UIViewController {
 
     override func viewDidLoad() {
@@ -54,7 +49,7 @@ class FMRootViewController: UIViewController {
     /// MARK: --- lazy loading
     lazy var magnifyButton: UIButton = {
         let button = UIButton(frame: CGRect(x: (screenWidth - 200) / 2, y: 88 + 50, width: 200, height: 50))
-        button.setTitle("取景框", for: .normal)
+        button.setTitle(" ", for: .normal)
         button.addTarget(self, action: #selector(toMagnifyView(_:)), for: .touchUpInside)
         button.backgroundColor = .gray
         return button
@@ -70,7 +65,7 @@ class FMRootViewController: UIViewController {
     
     lazy var albumButton: UIButton = {
         let button = UIButton(frame: CGRect(x: (screenWidth - 200) / 2, y: 88 + 170, width: 200, height: 50))
-        button.setTitle("自定义相册", for: .normal)
+        button.setTitle(" ", for: .normal)
         button.addTarget(self, action: #selector(customAlbum(_:)), for: .touchUpInside)
         button.backgroundColor = .gray
         return button
@@ -78,7 +73,7 @@ class FMRootViewController: UIViewController {
     
     lazy var otherButton: UIButton = {
         let button = UIButton(frame: CGRect(x: (screenWidth - 200) / 2, y: 88 + 230, width: 200, height: 50))
-        button.setTitle("其它", for: .normal)
+        button.setTitle(" ", for: .normal)
         button.addTarget(self, action: #selector(other(_:)), for: .touchUpInside)
         button.backgroundColor = .gray
         return button
@@ -86,7 +81,7 @@ class FMRootViewController: UIViewController {
     
     lazy var popButton: UIButton = {
         let button = UIButton(frame: CGRect(x: (screenWidth - 200) / 2, y: 88 + 290, width: 200, height: 50))
-        button.setTitle("弹框", for: .normal)
+        button.setTitle(" ", for: .normal)
         button.addTarget(self, action: #selector(popAction(_:)), for: .touchUpInside)
         button.backgroundColor = .gray
         return button

@@ -13,43 +13,90 @@ import AssetsLibrary
 import CoreMedia
 
 class FMCustomCameraViewController: UIViewController {
-
-    let motionManager: FMMotionManager = WBMotionManager()
-    let movieManager: FMMovieManager = WBMovieManager()
-    let cameraManager: FMCameraManager = WBCameraManager()
+    
+    var confirmUserPhoto: ((UIImage) -> ())?
+    
+    var isPresent: Bool = false
+    
+    let motionManager: FMMotionManager = FMMotionManager()
+    let movieManager: FMMovieManager = FMMovieManager()
+    let cameraManager: FMCameraManager = FMCameraManager()
     // 录制
     var recording: Bool = false
-    
     // 会话
     var session: AVCaptureSession?
-    
     // 输入
     var deviceInput: AVCaptureDeviceInput?
-        
+    
     // 输出
     var videoConnection: AVCaptureConnection?
     var audioConnection: AVCaptureConnection?
     var videoOutput: AVCaptureVideoDataOutput?
     var imageOutput: AVCaptureStillImageOutput?
     
+    var cameraAuthorized: Bool = false
+    
+    /// 默认摄像头选择: 1-前置摄像头, 2-后置摄像头
+    var cameraChoice: Int32 = 2
+    /// 蒙层的url
+    var maskURL: String?
+    /// 相机取景宽
+    var cameraFramingWidth: Int32 = 3
+    /// 相机取景高
+    var cameraFramingHeight: Int32 = 4
+    /// 相机取景框的高宽比
+    private var cameraScale: CGFloat = 4.0 / 3.0
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        navigationController?.navigationBar.isHidden = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .gray
+        view.backgroundColor = UIColor.appPureBlack
         
-        // 使用
+        self.cameraScale = CGFloat(cameraFramingHeight) / CGFloat(cameraFramingWidth)
+        
+        checkCameraAuthorized()
+        addObsever()
+        
+    }
+    
+    func addObsever() {
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidBecomeActive(_:)), name: UIApplication.didBecomeActiveNotification, object: nil)
+    }
+    
+    @objc func appDidBecomeActive(_ noti: Notification) {
+        if !cameraAuthorized {
+            checkCameraAuthorized()
+        }
+    }
+    
+    // 检查相册权限
+    func checkCameraAuthorized() {
         self.cameraPermissions(authorizedBlock: { [weak self] in
             guard let self = self else { return }
-            print("打开相机")
+            self.cameraAuthorized = true
+            FMLog(" --- 打开相机 --- ")
             DispatchQueue.main.async {
                 self.setupUI()
             }
             
-        }, deniedBlock: {
-            print("没有权限使用相机")
+            }, deniedBlock: {[weak self] in
+                guard let self = self else { return }
+                FMLog(" --- 没有权限使用相机 --- ")
+                self.cameraAuthorized = false
+                DispatchQueue.main.async {
+                    self.view.addSubview(self.closeButton)
+                    self.view.addSubview(self.notAuthorizedView)
+                }
+                
         })
-        
     }
-
+    
     // 相机权限
     func cameraPermissions(authorizedBlock: @escaping () -> Void, deniedBlock: @escaping () -> Void) {
         let authStatus = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
@@ -73,6 +120,9 @@ class FMCustomCameraViewController: UIViewController {
         setupSession()
         cameraView.previewView.captureSessionsion = self.session
         startCaptureSession()
+        if let _ = self.maskURL {
+            view.addSubview(maskImageView)
+        }
         view.addSubview(previewImageView)
     }
     
@@ -115,7 +165,8 @@ class FMCustomCameraViewController: UIViewController {
     /// 输入
     func setupSessionInputs() {
         // 视频
-        if let videoDevice = AVCaptureDevice.default(for: .video) {
+        let position: AVCaptureDevice.Position = cameraChoice == 1 ? .front : .back
+        if let videoDevice = cameraWithPosition(position: position) {
             do {
                 let videoInput = try AVCaptureDeviceInput.init(device: videoDevice)
                 if let s = session, s.canAddInput(videoInput) {
@@ -123,21 +174,21 @@ class FMCustomCameraViewController: UIViewController {
                 }
                 self.deviceInput = videoInput
             } catch (let error) {
-                print(" --- 设置视频输入错误 --- \(error)")
+                FMLog(" --- 设置视频输入错误 --- \(error)")
             }
         }
         // 音频
-//        if let audioDevice = AVCaptureDevice.default(for: .audio) {
-//            do {
-//                let audioInput = try AVCaptureDeviceInput.init(device: audioDevice)
-//                if let s = session, s.canAddInput(audioInput) {
-//                    s.addInput(audioInput)
-//                }
-//            } catch (let error) {
-//                print(" --- 设置音频输入错误 --- \(error)")
-//            }
-//        }
-        
+        //        if let audioDevice = AVCaptureDevice.default(for: .audio) {
+        //            do {
+        //                let audioInput = try AVCaptureDeviceInput.init(device: audioDevice)
+        //                if let s = session, s.canAddInput(audioInput) {
+        //                    s.addInput(audioInput)
+        //                }
+        //            } catch (let error) {
+        //                FMLog(" --- 设置音频输入错误 --- \(error)")
+        //            }
+        //        }
+          
     }
     
     /// 输出
@@ -155,12 +206,12 @@ class FMCustomCameraViewController: UIViewController {
         self.videoConnection = videoOutput.connection(with: .video)
         
         // 音频
-//        let audioOutput = AVCaptureAudioDataOutput()
-//        audioOutput.setSampleBufferDelegate(self, queue: captureQueue)
-//        if let s = session, s.canAddOutput(audioOutput) {
-//            s.addOutput(audioOutput)
-//        }
-//        self.audioConnection = audioOutput.connection(with: .audio)
+        //        let audioOutput = AVCaptureAudioDataOutput()
+        //        audioOutput.setSampleBufferDelegate(self, queue: captureQueue)
+        //        if let s = session, s.canAddOutput(audioOutput) {
+        //            s.addOutput(audioOutput)
+        //        }
+        //        self.audioConnection = audioOutput.connection(with: .audio)
         
         // 静态图片输出
         let imageOutput = AVCaptureStillImageOutput()
@@ -178,7 +229,7 @@ class FMCustomCameraViewController: UIViewController {
             s.startRunning()
         }
     }
-
+    
     // 停止捕捉
     func stopCaptureSession() {
         if let s = session, s.isRunning {
@@ -186,16 +237,55 @@ class FMCustomCameraViewController: UIViewController {
         }
     }
     
+    // 关闭
+    @objc func close(_ sender: UIButton) {
+        if isPresent {
+            self.dismiss(animated: true, completion: nil)
+        } else {
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
     /// MARK: --- lazy loading
-    lazy var cameraView: WBCameraView = {
-        let view = WBCameraView(frame: CGRect(x: 0, y: 88, width: screenWidth, height: screenHeight - 88 - 31))
+    lazy var closeButton: UIButton = {
+        let button = UIButton(frame: CGRect(x: 8, y: Constants.statusBarHeight + 8, width: 40, height: 40))
+        button.setImage(UIImage(named: "v1_common_close_white_normal"), for: .normal)
+        button.addTarget(self, action: #selector(close(_:)), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var cameraView: FMCameraView = {
+        let view = FMCameraView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight - Constants.bottomSafeMargin), cameraScale: self.cameraScale)
         view.delegate = self
         return view
     }()
     
-    lazy var previewImageView: UIImageView = {
-        let iv = UIImageView(frame: CGRect(x: (screenWidth - 200) / 2.0, y: 200, width: 200, height: 200))
+    lazy var maskImageView: UIImageView = {
+        let iv = UIImageView(frame: CGRect(x: 0, y: Constants.statusBarHeight + 56, width:screenWidth, height: screenWidth * cameraScale))
+        iv.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
+        if let url = self.maskURL {
+//            iv.kf.setImage(with: URL(string: url))
+        }
         return iv
+    }()
+    
+    lazy var previewImageView: UIImageView = {
+        let iv = UIImageView(frame: CGRect(x: 0, y: Constants.statusBarHeight + 56, width: screenWidth, height: screenWidth * cameraScale))
+        return iv
+    }()
+    
+    lazy var notAuthorizedView: FMCameraNotAuthorizedView = {
+        let view = FMCameraNotAuthorizedView(frame: CGRect(x: 0, y: Constants.statusBarHeight + 56, width: screenWidth, height: screenWidth), title: LocalizedString("wb_unableCamera", value: "无法启动相机", comment: "无法启动相机"), subTitle: LocalizedString("wb_unableCameraNoti", value: "请在设置中允许AcornBox访问你的相机", comment: "请在设置中允许AcornBox访问你的相机"))
+        view.toSettings = { [weak self] in
+            guard let self = self else { return }
+            
+            if let url = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.openURL(url)
+            }
+            
+        }
+        return view
     }()
     
     // 当前设备取向
@@ -217,14 +307,24 @@ class FMCustomCameraViewController: UIViewController {
     }
     
     deinit {
-        print(" --- 相机界面销毁了 --- ")
+        FMLog(" --- ”相机“界面销毁了 --- ")
     }
     
 }
 
-extension FMCustomCameraViewController: WBCameraViewDelegate {
+extension FMCustomCameraViewController: FMCameraViewDelegate {
+    
+    // 关闭
+    func closeAction(_ cameraView: FMCameraView) {
+        if isPresent {
+            self.dismiss(animated: true, completion: nil)
+        } else {
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
     // 闪光灯
-    func flashLightAction(_ cameraView: WBCameraView, handler: ((Error?) -> ())) {
+    func flashLightAction(_ cameraView: FMCameraView, handler: ((Error?) -> ())) {
         guard let device = activeCamera() else { return }
         let on = cameraManager.flashMode(device: device) == .on
         let mode: AVCaptureDevice.FlashMode = on ? .off : .on
@@ -232,7 +332,7 @@ extension FMCustomCameraViewController: WBCameraViewDelegate {
         handler(error)
     }
     // 手电筒
-    func torchLightAction(_ cameraView: WBCameraView, handler: ((Error?) -> ())) {
+    func torchLightAction(_ cameraView: FMCameraView, handler: ((Error?) -> ())) {
         guard let device = activeCamera() else { return }
         let on = cameraManager.torchMode(device: device) == .on
         let mode: AVCaptureDevice.TorchMode = on ? .off : .on
@@ -240,7 +340,7 @@ extension FMCustomCameraViewController: WBCameraViewDelegate {
         handler(error)
     }
     // 转换摄像头
-    func swicthCameraAction(_ cameraView: WBCameraView, handler: ((Error?) -> ())) {
+    func swicthCameraAction(_ cameraView: FMCameraView, handler: ((Error?) -> ())) {
         guard let videoDevice = inactiveCamera(), let device = activeCamera(), let s = self.session, let deviceInput = self.deviceInput else { return }
         do {
             let videoInput = try AVCaptureDeviceInput.init(device: videoDevice)
@@ -267,46 +367,48 @@ extension FMCustomCameraViewController: WBCameraViewDelegate {
         }
     }
     // 自动聚焦、曝光
-    func autoFocusAndExposureAction(_ cameraView: WBCameraView, handler: ((Error?) -> ())) {
+    func autoFocusAndExposureAction(_ cameraView: FMCameraView, handler: ((Error?) -> ())) {
         guard let device = activeCamera() else { return }
         let error = cameraManager.resetFocusAndExposure(device: device)
         handler(error)
     }
-    
     // 聚焦
-    func focusAction(_ cameraView: WBCameraView, point: CGPoint, handler: ((Error?) -> ())) {
+    func focusAction(_ cameraView: FMCameraView, point: CGPoint, handler: ((Error?) -> ())) {
         guard let device = activeCamera() else { return }
         
         if let error = cameraManager.focus(device: device, point: point) {
-            print(" --- 聚焦出现错误 --- \(String(describing: error))")
+            FMLog(" --- 聚焦出现错误 --- \(String(describing: error))")
         }
         
     }
     // 曝光
-    func exposAction(_ cameraView: WBCameraView, point: CGPoint, handler: ((Error?) -> ())) {
+    func exposAction(_ cameraView: FMCameraView, point: CGPoint, handler: ((Error?) -> ())) {
         guard let device = activeCamera() else { return }
         let error = cameraManager.expose(device: device, point: point)
         handler(error)
     }
     // 缩放
-    func zoomAction(_ cameraView: WBCameraView, factor: CGFloat) {
+    func zoomAction(_ cameraView: FMCameraView, factor: CGFloat) {
         guard let device = activeCamera() else { return }
         
         if let error = cameraManager.zoom(device: device, factor: factor) {
-            print(" --- 缩放出现错误 --- \(String(describing: error))")
+            FMLog(" --- 缩放出现错误 --- \(String(describing: error))")
         }
         
     }
-    
     /// MARK: --- 拍摄照片
-    func takePhotoAction(_ cameraView: WBCameraView) {
+    func takePhotoAction(_ cameraView: FMCameraView, handler: @escaping ((Error?) -> ())) {
         if let connection = self.imageOutput?.connection(with: .video) {
             if connection.isVideoOrientationSupported {
-                connection.videoOrientation = self.currentVideoOrientation()
+                connection.videoOrientation = .portrait//self.currentVideoOrientation()
             }
+            // 设置前置摄像头拍照不镜像
+            /*if let ad = activeCamera(), ad.position == .front,  connection.isVideoMirroringSupported {
+             connection.isVideoMirrored = true
+             }*/
             self.imageOutput?.captureStillImageAsynchronously(from: connection, completionHandler: { (buffer, error) in
-                if let _ = error {
-                    print(" --- 拍摄照片时发生错误 --- \(String(describing: error))")
+                if let err = error {
+                    handler(err)
                     return
                 }
                 if let b = buffer {
@@ -314,29 +416,34 @@ extension FMCustomCameraViewController: WBCameraViewDelegate {
                     if let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(b) {
                         
                         if let image = UIImage(data: imageData) {
+                            self.previewImageView.isHidden = false
                             self.previewImageView.image = self.captureFinishWithImage(image)
+                            handler(nil)
                         }
                         
                     }
-                    
                 }
                 
             })
         }
-        
     }
     
     func captureFinishWithImage(_ image: UIImage) -> UIImage? {
-        let size0 = image.size
-        var size1 = CGSize(width: screenWidth, height: screenWidth * 4.0 / 3.0)
-        let height = (size1.height + size0.width) / size1.width
-        size1.height = height
-        size1.width = size0.width
-        let rect = CGRect(x: (size0.height - size1.height) / 2.0, y: 0, width: size1.height, height: size1.width)
-        if let cgRef0 = image.cgImage {
+        //因为拍照后的imageOrientation与实际不一致(旋转了90°)，所以调整回来
+        guard let upImage = image.fixOrientation() else { return nil }
+        
+        let oSize = upImage.size
+        
+        let x: CGFloat = 0 * screenScale
+        let w = oSize.width
+        let y: CGFloat = (oSize.height - w * cameraScale) / 2.0
+        let h = w * cameraScale
+        
+        let rect = CGRect(x: x, y: y, width: w, height: h)
+        if let cgRef0 = upImage.cgImage {
             
             if let cgRef1 = cgRef0.cropping(to: rect) {
-                let scaleImage = UIImage(cgImage: cgRef1, scale: UIScreen.main.scale, orientation: image.imageOrientation)
+                let scaleImage = UIImage(cgImage: cgRef1, scale: screenScale, orientation: upImage.imageOrientation)
                 return scaleImage
             }
             
@@ -344,25 +451,75 @@ extension FMCustomCameraViewController: WBCameraViewDelegate {
         return nil
     }
     
+    private func savePhotoToAlbum(_ image: UIImage) {
+        if FMTool.canAccessPhotoLib() {
+            DispatchQueue.main.async {
+                UIImageWriteToSavedPhotosAlbum(image, self, #selector(self.saveImage(image:didFinishSavingWithError:contextInfo:)), nil)
+            }
+        } else {
+            FMTool.requestAuthorizationForPhotoAccess(authorized: { [weak self] in
+                guard let self = self else { return }
+                DispatchQueue.main.async {
+                    UIImageWriteToSavedPhotosAlbum(image, self, #selector(self.saveImage(image:didFinishSavingWithError:contextInfo:)), nil)
+                }
+                }, rejected: {
+                    DispatchQueue.main.async {
+                        FMLog(" --- 保存失败 --- ")
+                    }
+            })
+        }
+    }
+    
+    @objc func saveImage(image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: AnyObject) {
+        
+        if error != nil{
+            FMLog(" --- 保存失败 --- ")
+        } else {
+            FMLog(" --- 保存成功 --- ")
+        }
+        
+    }
+    
+    // 取消 使用照片
+    func cancelAction(_ cameraView: FMCameraView) {
+        self.previewImageView.isHidden = true
+        self.previewImageView.image = nil
+    }
+    
+    // 确认使用照片
+    func confirmAction(_ cameraView: FMCameraView) {
+        if let image = previewImageView.image {
+            self.confirmUserPhoto?(image)
+            //            self.savePhotoToAlbum(image)
+        }
+        
+        if isPresent {
+            self.dismiss(animated: true, completion: nil)
+        } else {
+            self.navigationController?.popViewController(animated: true)
+        }
+        
+    }
+    
     /// MARK: --- 录制视频
     // 开始录像
-    func startRecordVideoAction(_ cameraView: WBCameraView) {
+    func startRecordVideoAction(_ cameraView: FMCameraView) {
         recording = true
         movieManager.currentDevice = activeCamera()
         movieManager.currentOrientation = currentVideoOrientation()
         movieManager.start { (error) in
             if let err = error {
-                print(" --- 录制视频开始失败 --- \(err)")
+                FMLog(" --- 录制视频开始失败 --- \(err)")
             }
         }
     }
     
     // 停止录像
-    func stopRecordVideoAction(_ cameraView: WBCameraView) {
+    func stopRecordVideoAction(_ cameraView: FMCameraView) {
         recording = false
         movieManager.stop {[weak self] (error, url) in
             if let err = error {
-                print(" --- 录制视频结束失败 --- \(err)")
+                FMLog(" --- 录制视频结束失败 --- \(err)")
             } else {
                 self?.saveMovieToCameraRoll(url: url)
             }
@@ -381,20 +538,17 @@ extension FMCustomCameraViewController: WBCameraViewDelegate {
                     
                 }
                 if !success {
-                    print(" --- 保存失败 ---")
+                    FMLog(" --- 保存失败 ---")
                 } else {
-                    print(" --- 保存成功 ---")
+                    FMLog(" --- 保存成功 ---")
                 }
             }
         }
     }
     // 改变拍照模式
-    func didChangeTypeAction(_ cameraView: WBCameraView, type: WBCameraType) {
+    func didChangeTypeAction(_ cameraView: FMCameraView, type: FMCameraType) {
     }
-    // 取消
-    func cancelAction(_ cameraView: WBCameraView) {
-        self.navigationController?.popViewController(animated: true)
-    }
+    
 }
 
 extension FMCustomCameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate {

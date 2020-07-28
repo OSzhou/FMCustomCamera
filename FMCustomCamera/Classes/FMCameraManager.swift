@@ -72,9 +72,9 @@ class FMCameraManager: NSObject {
                 device.exposurePointOfInterest = point
                 device.exposureMode = .autoExpose
                 if device.isExposureModeSupported(.locked) {
-                    device.addObserver(self, forKeyPath: WBCameraManager.exposeObserverKey, options: .new, context: &CameraAdjustingExposureContext)
+                    device.addObserver(self, forKeyPath: FMCameraManager.exposeObserverKey, options: .new, context: &CameraAdjustingExposureContext)
                     isObserverRemoved = false
-                    print("++++++++++++++++++++++")
+                    FMLog("++++++++++++++++++++++")
                 }
                 device.unlockForConfiguration()
                 return nil
@@ -89,16 +89,16 @@ class FMCameraManager: NSObject {
         if context == &CameraAdjustingExposureContext {
             if let device = object as? AVCaptureDevice {
                 if device.isAdjustingExposure, device.isExposureModeSupported(.locked) {
-                    device.removeObserver(self, forKeyPath: WBCameraManager.exposeObserverKey, context: &CameraAdjustingExposureContext)
+                    device.removeObserver(self, forKeyPath: FMCameraManager.exposeObserverKey, context: &CameraAdjustingExposureContext)
                     isObserverRemoved = true
-                    print("--------------------")
+                    FMLog("--------------------")
                     DispatchQueue.main.async {
                         do {
                             try device.lockForConfiguration()
                             device.exposureMode = .locked
                             device.unlockForConfiguration()
                         } catch (let error) {
-                            print(" --- 曝光监听出现错误 --- \(error)")
+                            FMLog(" --- 曝光监听出现错误 --- \(error)")
                         }
                     }
                 }
@@ -197,8 +197,8 @@ class FMCameraManager: NSObject {
     
     deinit {
         if !isObserverRemoved, let device = self.device {
-            print("========================")
-            device.removeObserver(self, forKeyPath: WBCameraManager.exposeObserverKey, context: &CameraAdjustingExposureContext)
+            FMLog("========================")
+            device.removeObserver(self, forKeyPath: FMCameraManager.exposeObserverKey, context: &CameraAdjustingExposureContext)
         }
     }
 }

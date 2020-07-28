@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -24,6 +24,10 @@
 		9722C86524D001A200562F40 /* FMCameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9722C86424D001A200562F40 /* FMCameraManager.swift */; };
 		9722C86724D0028300562F40 /* FMCameraNotAuthorizedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9722C86624D0028300562F40 /* FMCameraNotAuthorizedView.swift */; };
 		9722C86A24D003DE00562F40 /* FMTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9722C86924D003DE00562F40 /* FMTool.swift */; };
+		9722C86C24D022BB00562F40 /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9722C86B24D022BB00562F40 /* UIDevice.swift */; };
+		9722C87124D0272400562F40 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9722C86E24D0272400562F40 /* Montserrat-Bold.ttf */; };
+		9722C87224D0272400562F40 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9722C86F24D0272400562F40 /* Montserrat-SemiBold.ttf */; };
+		9722C87324D0272400562F40 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9722C87024D0272400562F40 /* Montserrat-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +71,10 @@
 		9722C86424D001A200562F40 /* FMCameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMCameraManager.swift; sourceTree = "<group>"; };
 		9722C86624D0028300562F40 /* FMCameraNotAuthorizedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMCameraNotAuthorizedView.swift; sourceTree = "<group>"; };
 		9722C86924D003DE00562F40 /* FMTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FMTool.swift; sourceTree = "<group>"; };
+		9722C86B24D022BB00562F40 /* UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
+		9722C86E24D0272400562F40 /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
+		9722C86F24D0272400562F40 /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
+		9722C87024D0272400562F40 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		B1C473885F9442AC63FC88E5 /* Pods_FMCustomCamera_FMCustomCameraUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FMCustomCamera_FMCustomCameraUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8C529C87ABC98194EDBC8F3 /* Pods_FMCustomCameraTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FMCustomCameraTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAA9CEEDCA7A7554736956DE /* Pods-FMCustomCamera.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FMCustomCamera.release.xcconfig"; path = "Target Support Files/Pods-FMCustomCamera/Pods-FMCustomCamera.release.xcconfig"; sourceTree = "<group>"; };
@@ -128,6 +136,7 @@
 		9722C82524CFFC0000562F40 /* FMCustomCamera */ = {
 			isa = PBXGroup;
 			children = (
+				9722C86D24D0272400562F40 /* Font */,
 				9722C85724CFFD0300562F40 /* Classes */,
 				9722C85624CFFD0300562F40 /* CustomUI */,
 				9722C82624CFFC0000562F40 /* AppDelegate.swift */,
@@ -183,8 +192,19 @@
 			isa = PBXGroup;
 			children = (
 				9722C86924D003DE00562F40 /* FMTool.swift */,
+				9722C86B24D022BB00562F40 /* UIDevice.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		9722C86D24D0272400562F40 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				9722C86E24D0272400562F40 /* Montserrat-Bold.ttf */,
+				9722C86F24D0272400562F40 /* Montserrat-SemiBold.ttf */,
+				9722C87024D0272400562F40 /* Montserrat-Regular.ttf */,
+			);
+			path = Font;
 			sourceTree = "<group>";
 		};
 		BAE5E2747CE687568DAAF05D /* Frameworks */ = {
@@ -207,7 +227,6 @@
 				D3C12D827255A9390F39509F /* Pods-FMCustomCameraTests.debug.xcconfig */,
 				3EB3618660E05DEA6D92C307 /* Pods-FMCustomCameraTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -322,6 +341,9 @@
 			files = (
 				9722C83324CFFC0100562F40 /* LaunchScreen.storyboard in Resources */,
 				9722C83024CFFC0100562F40 /* Assets.xcassets in Resources */,
+				9722C87224D0272400562F40 /* Montserrat-SemiBold.ttf in Resources */,
+				9722C87324D0272400562F40 /* Montserrat-Regular.ttf in Resources */,
+				9722C87124D0272400562F40 /* Montserrat-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,6 +476,7 @@
 				9722C86724D0028300562F40 /* FMCameraNotAuthorizedView.swift in Sources */,
 				9722C86324D0018700562F40 /* FMMovieManager.swift in Sources */,
 				9722C85F24D000C300562F40 /* FMMotionManager.swift in Sources */,
+				9722C86C24D022BB00562F40 /* UIDevice.swift in Sources */,
 				9722C86124D0010700562F40 /* FMVideoPreview.swift in Sources */,
 				9722C85924CFFD4800562F40 /* FMRootViewController.swift in Sources */,
 				9722C85D24CFFF1A00562F40 /* FMCustomCameraViewController.swift in Sources */,

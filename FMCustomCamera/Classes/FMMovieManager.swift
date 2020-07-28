@@ -87,7 +87,7 @@ class FMMovieManager: NSObject {
             if let mw = movieWriter, mw.startWriting() {
                 mw.startSession(atSourceTime: CMSampleBufferGetPresentationTimeStamp(sampleBuffer))
             } else {
-                print(" --- \(String(describing: movieWriter?.error)) --- ")
+                FMLog(" --- \(String(describing: movieWriter?.error)) --- ")
             }
         }
         
@@ -98,7 +98,7 @@ class FMMovieManager: NSObject {
                     return
                 }
                 if !mvi.append(sampleBuffer) {
-                    print(" --- \(String(describing: movieWriter?.error)) --- ")
+                    FMLog(" --- \(String(describing: movieWriter?.error)) --- ")
                 }
             } else if mediaType == .audio {
                 guard let mai = movieAudioInput else { return }
@@ -106,7 +106,7 @@ class FMMovieManager: NSObject {
                     return
                 }
                 if !mai.append(sampleBuffer) {
-                    print(" --- \(String(describing: movieWriter?.error)) --- ")
+                    FMLog(" --- \(String(describing: movieWriter?.error)) --- ")
                 }
             }
         }
@@ -200,9 +200,9 @@ class FMMovieManager: NSObject {
         if fileManager.fileExists(atPath: filePath) {
             do {
                 try fileManager.removeItem(atPath: filePath)
-                print(" --- 删除视频文件成功 --- ")
+                FMLog(" --- 删除视频文件成功 --- ")
             } catch(let error) {
-                print(" --- 删除视频文件失败 --- \(error)")
+                FMLog(" --- 删除视频文件失败 --- \(error)")
             }
         }
     }

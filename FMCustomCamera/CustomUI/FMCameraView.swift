@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 enum FMCameraType {
     case photo
@@ -148,7 +149,7 @@ class FMCameraView: UIView {
         runFocusAnimation(focusView, point: point)
         del.focusAction(self, point: previewView.captureDevicePointForPoint(point)) { (error) in
             if let err =  error {
-                logger.debug(" --- 聚焦时发生错误 --- \(String(describing: err))")
+                FMLog(" --- 聚焦时发生错误 --- \(String(describing: err))")
             }
         }
     }
@@ -159,7 +160,7 @@ class FMCameraView: UIView {
         runFocusAnimation(exposureView, point: point)
         del.exposAction(self, point: previewView.captureDevicePointForPoint(point)) { (error) in
             if let err = error {
-                 logger.debug(" --- 曝光时发生错误 --- \(String(describing: err))")
+                 FMLog(" --- 曝光时发生错误 --- \(String(describing: err))")
             }
         }
     }
@@ -190,7 +191,7 @@ class FMCameraView: UIView {
         runResetAnimation()
         del.autoFocusAndExposureAction(self) { (error) in
             if let err = error {
-                logger.debug(" --- 自动聚焦和曝光时发生错误 --- \(String(describing: err))")
+                FMLog(" --- 自动聚焦和曝光时发生错误 --- \(String(describing: err))")
             }
         }
     }
@@ -202,7 +203,7 @@ class FMCameraView: UIView {
                 guard let self = self else { return }
                 
                 if let err = error {
-                    logger.debug(" --- 拍照时发生错误 --- \(err)")
+                    FMLog(" --- 拍照时发生错误 --- \(err)")
                 } else {
                     DispatchQueue.main.async {
                         self.topContentView.isHidden = true
@@ -261,7 +262,7 @@ class FMCameraView: UIView {
     @objc func switchCameraClick(_ sender: UIButton) {
         self.delegate?.swicthCameraAction(self, handler: { (error) in
             if let err = error {
-                logger.debug(" --- 转换摄像头时发生错误 --- \(String(describing: err))")
+                FMLog(" --- 转换摄像头时发生错误 --- \(String(describing: err))")
             }
         })
     }
@@ -270,7 +271,7 @@ class FMCameraView: UIView {
     @objc func torchClick(_ sender: UIButton) {
         self.delegate?.torchLightAction(self, handler: { (error) in
             if let err = error, !err.localizedDescription.isEmpty {
-                logger.debug(" --- 打开手电筒时发生错误 --- \(String(describing: error))")
+                FMLog(" --- 打开手电筒时发生错误 --- \(String(describing: error))")
             } else {
                 self.flashButton.isSelected = false
                 self.lightButton.isSelected = !self.lightButton.isSelected
@@ -282,7 +283,7 @@ class FMCameraView: UIView {
     @objc func flashClick(_ sender: UIButton) {
         self.delegate?.flashLightAction(self, handler: { (error) in
             if let err = error, !err.localizedDescription.isEmpty {
-                logger.debug(" --- 打开闪光灯时发生错误 --- \(String(describing: error))")
+                FMLog(" --- 打开闪光灯时发生错误 --- \(String(describing: error))")
             } else {
                 self.flashButton.isSelected = !self.flashButton.isSelected
                 self.lightButton.isSelected = false
@@ -326,13 +327,13 @@ class FMCameraView: UIView {
     
     /// MARK: --- lazy loading
     lazy var topView: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: G.shared.statusBarHeight + topContentH))
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: Constants.statusBarHeight + topContentH))
         view.backgroundColor = UIColor.appPureBlack
         return view
     }()
     
     lazy var topContentView: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: G.shared.statusBarHeight, width: screenWidth, height: topContentH))
+        let view = UIView(frame: CGRect(x: 0, y: Constants.statusBarHeight, width: screenWidth, height: topContentH))
         return view
     }()
     
@@ -346,7 +347,7 @@ class FMCameraView: UIView {
     // 转换摄像头
     lazy var switchButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "FM_switch_camera"), for: .normal)
+        button.setImage(UIImage(named: "wb_switch_camera"), for: .normal)
         button.addTarget(self, action: #selector(switchCameraClick(_:)), for: .touchUpInside)
         return button
     }()
@@ -354,14 +355,14 @@ class FMCameraView: UIView {
     // 闪光灯
     lazy var flashButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "FM_flash_off"), for: .normal)
-        button.setImage(UIImage(named: "FM_flash_on"), for: .selected)
+        button.setImage(UIImage(named: "wb_flash_off"), for: .normal)
+        button.setImage(UIImage(named: "wb_flash_on"), for: .selected)
         button.addTarget(self, action: #selector(flashClick(_:)), for: .touchUpInside)
         return button
     }()
     
     lazy var bottomView: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: self.frame.height - 60 - G.shared.bottomSafeMargin - 17, width: screenWidth, height: 60))
+        let view = UIView(frame: CGRect(x: 0, y: self.frame.height - 60 - Constants.bottomSafeMargin - 17, width: screenWidth, height: 60))
         view.backgroundColor = .black
         return view
     }()
@@ -369,7 +370,7 @@ class FMCameraView: UIView {
     // 拍照
     lazy var photoButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "FM_take_photo"), for: .normal)
+        button.setImage(UIImage(named: "wb_take_photo"), for: .normal)
         button.addTarget(self, action: #selector(takePicture(_:)), for: .touchUpInside)
         return button
     }()
@@ -423,14 +424,14 @@ class FMCameraView: UIView {
     }()
     
     fileprivate(set) lazy var previewView: FMVideoPreview = {
-        let view = FMVideoPreview(frame: CGRect(x: 0, y: G.shared.statusBarHeight + topContentH, width: screenWidth, height: screenWidth * scale))
+        let view = FMVideoPreview(frame: CGRect(x: 0, y: Constants.statusBarHeight + topContentH, width: screenWidth, height: screenWidth * scale))
         // 单指 (聚焦)
         let tap = UITapGestureRecognizer(target: self, action: #selector(previewTapGesture(_:)))
         // 双指 (曝光)
-        /*let doubleTap = UITapGestureRecognizer(target: self, action: #selector(previewDoubleTapGesture(_:)))
+        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(previewDoubleTapGesture(_:)))
         doubleTap.numberOfTouchesRequired = 2
         tap.require(toFail: doubleTap)
-        view.addGestureRecognizer(doubleTap)*/
+        view.addGestureRecognizer(doubleTap)
         
         view.addGestureRecognizer(tap)
         
