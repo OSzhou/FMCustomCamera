@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		227CB06F50997348F4912865 /* Pods_FMCustomCamera_FMCustomCameraUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1C473885F9442AC63FC88E5 /* Pods_FMCustomCamera_FMCustomCameraUITests.framework */; };
+		2BAE4487274F895100D7F175 /* FaceTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAE4485274F895100D7F175 /* FaceTracker.swift */; };
+		2BAE4488274F895100D7F175 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2BAE4486274F895100D7F175 /* Info.plist */; };
 		49817511463F106C7E8E0F92 /* Pods_FMCustomCamera.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F06C67057EAA37FAA1046B9E /* Pods_FMCustomCamera.framework */; };
 		73CAF7018389E91EFC10DCA6 /* Pods_FMCustomCameraTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8C529C87ABC98194EDBC8F3 /* Pods_FMCustomCameraTests.framework */; };
 		9722C82724CFFC0000562F40 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9722C82624CFFC0000562F40 /* AppDelegate.swift */; };
@@ -50,6 +52,9 @@
 /* Begin PBXFileReference section */
 		1603A10BBAB0203ABCEE9406 /* Pods-FMCustomCamera-FMCustomCameraUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FMCustomCamera-FMCustomCameraUITests.release.xcconfig"; path = "Target Support Files/Pods-FMCustomCamera-FMCustomCameraUITests/Pods-FMCustomCamera-FMCustomCameraUITests.release.xcconfig"; sourceTree = "<group>"; };
 		181CF89BC437CFC599536906 /* Pods-FMCustomCamera-FMCustomCameraUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FMCustomCamera-FMCustomCameraUITests.debug.xcconfig"; path = "Target Support Files/Pods-FMCustomCamera-FMCustomCameraUITests/Pods-FMCustomCamera-FMCustomCameraUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		2BAE4484274F895100D7F175 /* FaceTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaceTracker.h; sourceTree = "<group>"; };
+		2BAE4485274F895100D7F175 /* FaceTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FaceTracker.swift; sourceTree = "<group>"; };
+		2BAE4486274F895100D7F175 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3EB3618660E05DEA6D92C307 /* Pods-FMCustomCameraTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FMCustomCameraTests.release.xcconfig"; path = "Target Support Files/Pods-FMCustomCameraTests/Pods-FMCustomCameraTests.release.xcconfig"; sourceTree = "<group>"; };
 		9722C82324CFFC0000562F40 /* FMCustomCamera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FMCustomCamera.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9722C82624CFFC0000562F40 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -111,9 +116,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2BAE4483274F895100D7F175 /* FaceTracker */ = {
+			isa = PBXGroup;
+			children = (
+				2BAE4484274F895100D7F175 /* FaceTracker.h */,
+				2BAE4485274F895100D7F175 /* FaceTracker.swift */,
+				2BAE4486274F895100D7F175 /* Info.plist */,
+			);
+			name = FaceTracker;
+			path = FMCustomCamera/FaceTracker;
+			sourceTree = "<group>";
+		};
 		9722C81A24CFFC0000562F40 = {
 			isa = PBXGroup;
 			children = (
+				2BAE4483274F895100D7F175 /* FaceTracker */,
 				9722C82524CFFC0000562F40 /* FMCustomCamera */,
 				9722C83C24CFFC0100562F40 /* FMCustomCameraTests */,
 				9722C84724CFFC0200562F40 /* FMCustomCameraUITests */,
@@ -341,6 +358,7 @@
 			files = (
 				9722C83324CFFC0100562F40 /* LaunchScreen.storyboard in Resources */,
 				9722C83024CFFC0100562F40 /* Assets.xcassets in Resources */,
+				2BAE4488274F895100D7F175 /* Info.plist in Resources */,
 				9722C87224D0272400562F40 /* Montserrat-SemiBold.ttf in Resources */,
 				9722C87324D0272400562F40 /* Montserrat-Regular.ttf in Resources */,
 				9722C87124D0272400562F40 /* Montserrat-Bold.ttf in Resources */,
@@ -482,6 +500,7 @@
 				9722C85D24CFFF1A00562F40 /* FMCustomCameraViewController.swift in Sources */,
 				9722C86A24D003DE00562F40 /* FMTool.swift in Sources */,
 				9722C86524D001A200562F40 /* FMCameraManager.swift in Sources */,
+				2BAE4487274F895100D7F175 /* FaceTracker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
