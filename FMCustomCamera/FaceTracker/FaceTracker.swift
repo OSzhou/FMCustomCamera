@@ -129,26 +129,11 @@ public class FaceTracker: NSObject {
         }
         
         connection?.videoScaleAndCropFactor = 1.0
-//        let camScaleup: CGFloat = 0.5
-//        previewLayer.setAffineTransform(CGAffineTransform(scaleX: camScaleup, y: camScaleup))
         
         session.startRunning()
         
         // connect the front camara to the preview layer
         guard let frontCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else { return false }
-        
-        print("zoom --- \(frontCamera.videoZoomFactor)")
-        
-        if #available(iOS 11.0, *) {
-            print("min zoom --- \(frontCamera.minAvailableVideoZoomFactor)")
-        } else {
-            // Fallback on earlier versions
-        }
-        if #available(iOS 11.0, *) {
-            print("max zoom --- \(frontCamera.maxAvailableVideoZoomFactor)")
-        } else {
-            // Fallback on earlier versions
-        }
         
 //        do {
 //            try frontCamera.lockForConfiguration()
@@ -193,20 +178,28 @@ extension FaceTracker: AVCaptureVideoDataOutputSampleBufferDelegate {
         }
     }
     /*
+     编码的图像数据与图像的预期显示方向相匹配。
      case up = 1 // 0th row at top,    0th column on left   - default orientation
-
+     
+     编码的图像数据从图像的预期显示方向水平翻转。
      case upMirrored = 2 // 0th row at top,    0th column on right  - horizontal flip
-
+     
+     编码的图像数据从图像的预期显示方向旋转 180°。
      case down = 3 // 0th row at bottom, 0th column on right  - 180 deg rotation
-
+     
+     编码的图像数据从图像的预期显示方向垂直翻转
      case downMirrored = 4 // 0th row at bottom, 0th column on left   - vertical flip
-
+     
+     编码的图像数据从图像的预期显示方向水平翻转并逆时针旋转 90°。
      case leftMirrored = 5 // 0th row on left,   0th column at top
-
+     
+     编码的图像数据从图像的预期显示方向顺时针旋转 90°。
      case right = 6 // 0th row on right,  0th column at top    - 90 deg CW
-
+     
+     编码的图像数据从图像的预期显示方向水平翻转并顺时针旋转 90°。
      case rightMirrored = 7 // 0th row on right,  0th column on bottom
-
+     
+     编码的图像数据从图像的预期显示方向顺时针旋转 90°。
      case left = 8 // 0th row on left,   0th column at bottom - 90 deg CCW
      */
     private func CIDetectorDetectFace(sampleBuffer: CMSampleBuffer, pixelBuffer: CVPixelBuffer) {
@@ -215,22 +208,24 @@ extension FaceTracker: AVCaptureVideoDataOutputSampleBufferDelegate {
         let ciImage = CIImage(cvPixelBuffer: pixelBuffer, options: attachments as? [CIImageOption : Any])
         
         let curDeviceOrientation = UIDevice.current.orientation
-        var exifOrientation: CGImagePropertyOrientation = .up
+        var exifOrientation: CGImagePropertyOrientation = .up // 1
         switch curDeviceOrientation {
         // Device oriented vertically, home button on the top
         case .portraitUpsideDown:
-            exifOrientation = .left
+            exifOrientation = .left // 8
         // Device oriented horizontally, home button on the right
         case .landscapeLeft:
-            exifOrientation = .down
+            exifOrientation = .down // 3
         // Device oriented horizontally, home button on the left
         case .landscapeRight:
-            exifOrientation = .up
+            exifOrientation = .up // 1
         // Device oriented vertically, home button on the bottom
         case .portrait:
-            exifOrientation = .right
+            exifOrientation = .rightMirrored // 7
+        case .faceUp:
+            exifOrientation = .up
         default:
-            exifOrientation = .right
+            exifOrientation = .right // 6
         }
         
         let imageOptions = [CIDetectorImageOrientation: NSNumber(integerLiteral: Int(exifOrientation.rawValue))]
@@ -324,7 +319,7 @@ extension FaceTracker: AVCaptureVideoDataOutputSampleBufferDelegate {
     // called asynchronously as the capture output is capturing sample buffers, this method asks the face detector (if on)
     // to detect features and for each draw the red square in a layer and set appropriate orientation
     private func calculateFaceBoxesForFeatures(features: [CIFaceFeature]?, forVideoBox clap: CGRect, deviceOrientation orientation: UIDeviceOrientation) {
-        guard let faces = features else {
+        guard let faces = features, !faces.isEmpty else {
             delegate?.hasNoFace()
             return }
         guard let preview = previewLayer else { return }
