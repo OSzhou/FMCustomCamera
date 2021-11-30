@@ -8,11 +8,11 @@
 import UIKit
 import AVFoundation
 import Vision
-
+// 参考: https://medium.com/onfido-tech/live-face-tracking-on-ios-using-vision-framework-adf8a1799233
 public protocol FaceTrackerDelegate: AnyObject {
-    func faceIsTracked(faceRect: CGRect, withOffsetWidth offsetWidth: CGFloat, andOffsetHeight offsetHeight: CGFloat, andDistance distance: CGFloat)
-    func fluentUpdateDistance(distance: CGFloat)
-    func hasNoFace()
+    func faceIsTracked(faceRect: CGRect, withOffsetWidth offsetWidth: CGFloat, andOffsetHeight offsetHeight: CGFloat, andDistance distance: CGFloat, isCIDetector: Bool)
+    func fluentUpdateDistance(distance: CGFloat, isCIDetector: Bool)
+    func hasNoFace(isCIDetector: Bool)
 }
 
 enum ExifOrientationType: Int {
@@ -38,6 +38,7 @@ public class FaceTracker: NSObject {
     private var photoOutput: AVCapturePhotoOutput?
     private var videoDataOutputQueue: DispatchQueue?
     private var faceDetector: CIDetector?
+    private var isCIDetector: Bool = false
     
     public init(delegate: FaceTrackerDelegate) {
         super.init()
@@ -71,7 +72,7 @@ public class FaceTracker: NSObject {
         // In order to still animate it fluient we do some calculations.
         previousDistance = (1.0 - reactionFactor) * previousDistance +  reactionFactor * distance;
         
-        delegate?.fluentUpdateDistance(distance: previousDistance)
+        delegate?.fluentUpdateDistance(distance: previousDistance, isCIDetector: isCIDetector)
         
         // Make sure we do a recalculation 10 times every second in order to make sure we animate to the final position.
         self.perform(#selector(setDistance), with: nil, afterDelay: TimeInterval(updateInterval))
@@ -172,8 +173,10 @@ extension FaceTracker: AVCaptureVideoDataOutputSampleBufferDelegate {
         // got an image
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
         if #available(iOS 11.0, *) {
+            isCIDetector = false
             VisionDetectFace(in: pixelBuffer)
         } else {
+            isCIDetector = true
             CIDetectorDetectFace(sampleBuffer: sampleBuffer, pixelBuffer: pixelBuffer)
         }
     }
@@ -249,7 +252,7 @@ extension FaceTracker: AVCaptureVideoDataOutputSampleBufferDelegate {
                     self.handleFaceDetectionResults(results)
                 } else {
                     print("did not detect any face")
-                    self.delegate?.hasNoFace()
+                    self.delegate?.hasNoFace(isCIDetector: self.isCIDetector)
                 }
             }
         })
@@ -320,7 +323,7 @@ extension FaceTracker: AVCaptureVideoDataOutputSampleBufferDelegate {
     // to detect features and for each draw the red square in a layer and set appropriate orientation
     private func calculateFaceBoxesForFeatures(features: [CIFaceFeature]?, forVideoBox clap: CGRect, deviceOrientation orientation: UIDeviceOrientation) {
         guard let faces = features, !faces.isEmpty else {
-            delegate?.hasNoFace()
+            delegate?.hasNoFace(isCIDetector: isCIDetector)
             return }
         guard let preview = previewLayer else { return }
         let parentFrameSize = preview.frame.size
@@ -379,7 +382,7 @@ extension FaceTracker: AVCaptureVideoDataOutputSampleBufferDelegate {
                 // This is the current recongized distance. See the setDistance method for usages
                 self.distance = (800.0 - (self.faceRect.size.width + self.faceRect.size.height)) / 10.0
             } else {
-//                    self.distance = (2000.0 - (orignBounds.size.width + orignBounds.size.height)) / 10.0
+
                 let minM = min(UIScreen.main.bounds.size.height, UIScreen.main.bounds.size.width) * 3.0 / 4.0
 //                    print("face height --- \(originBounds.height)")
 //                    print("face width --- \(originBounds.width)")
@@ -388,17 +391,17 @@ extension FaceTracker: AVCaptureVideoDataOutputSampleBufferDelegate {
                 let faceW = CGFloat(Int(originBounds.width / 10)) * 10
 //                print("face height --- \(faceH)")
 //                print("face width --- \(faceW)")
-//                if faceH > minM || faceW > minM ||
-//                    (!hasLeftEye && hasRightEye) ||
-//                    (hasRightEye && !hasLeftEye) {
-//                    self.distance = 17.0
-//                } else {
+                if faceH > minM || faceW > minM ||
+                    (!hasLeftEye && hasRightEye) ||
+                    (hasRightEye && !hasLeftEye) {
+                    self.distance = 17.0
+                } else {
                     // Pref 与 Dref为参考值在手机成像的距离与离屏幕的距离，Psf为双眼的间距
                     // dsf = (pref / psf) * dref
                     // 1pt ≈ 0.016cm
-                    let pref = 3.0 * (UIScreen.main.bounds.size.width / 1024.0)
+                    let pref = 3.3 * (UIScreen.main.bounds.size.width / 1024.0)
                     self.distance = (pref / (abs(hasRightEyePosition.x - leftEyePosition.x) * 0.016)) * 25.0
-//                }
+                }
             }
             var originD = floor(self.distance)
             if originD == 24 || originD == 25 {
@@ -408,7 +411,7 @@ extension FaceTracker: AVCaptureVideoDataOutputSampleBufferDelegate {
                 originD = 28
             }
             print("face distance --- \(floor(self.distance))")
-            self.delegate?.faceIsTracked(faceRect: self.faceRect, withOffsetWidth: offsetWidth, andOffsetHeight: offsetHeight, andDistance: originD)
+            self.delegate?.faceIsTracked(faceRect: self.faceRect, withOffsetWidth: offsetWidth, andOffsetHeight: offsetHeight, andDistance: originD, isCIDetector: self.isCIDetector)
         }
     }
     
