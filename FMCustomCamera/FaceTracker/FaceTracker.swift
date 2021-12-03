@@ -15,17 +15,6 @@ public protocol FaceTrackerDelegate: AnyObject {
     func hasNoFace(isCIDetector: Bool)
 }
 
-enum ExifOrientationType: Int {
-    case PHOTOS_EXIF_0ROW_TOP_0COL_LEFT = 1 //   1  =  0th row is at the top, and 0th column is on the left (THE DEFAULT).
-    case PHOTOS_EXIF_0ROW_TOP_0COL_RIGHT = 2 //   2  =  0th row is at the top, and 0th column is on the right.
-    case PHOTOS_EXIF_0ROW_BOTTOM_0COL_RIGHT = 3 //   3  =  0th row is at the bottom, and 0th column is on the right.
-    case PHOTOS_EXIF_0ROW_BOTTOM_0COL_LEFT = 4 //   4  =  0th row is at the bottom, and 0th column is on the left.
-    case PHOTOS_EXIF_0ROW_LEFT_0COL_TOP = 5 //   5  =  0th row is on the left, and 0th column is the top.
-    case PHOTOS_EXIF_0ROW_RIGHT_0COL_TOP = 6 //   6  =  0th row is on the right, and 0th column is the top.
-    case PHOTOS_EXIF_0ROW_RIGHT_0COL_BOTTOM = 7 //   7  =  0th row is on the right, and 0th column is the bottom.
-    case PHOTOS_EXIF_0ROW_LEFT_0COL_BOTTOM = 8  //   8  =  0th row is on the left, and 0th column is the bottom.
-}
-
 public class FaceTracker: NSObject {
     public weak var delegate: FaceTrackerDelegate?
     public var faceRect: CGRect = .zero
@@ -136,16 +125,6 @@ public class FaceTracker: NSObject {
         // connect the front camara to the preview layer
         guard let frontCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else { return false }
         
-//        do {
-//            try frontCamera.lockForConfiguration()
-//
-//            frontCamera.ramp(toVideoZoomFactor: 2.0, withRate: 10)
-//
-//            frontCamera.unlockForConfiguration()
-//        } catch {
-//            print("set zoom factor failure --- \(error)")
-//        }
-        
         previewLayer.session?.beginConfiguration()
         if let input = try? AVCaptureDeviceInput(device: frontCamera) {
             if let inputs = previewLayer.session?.inputs {
@@ -248,10 +227,14 @@ extension FaceTracker: AVCaptureVideoDataOutputSampleBufferDelegate {
         let faceDetectionRequest = VNDetectFaceLandmarksRequest(completionHandler: { (request: VNRequest, error: Error?) in
             DispatchQueue.main.async {
                 if let results = request.results as? [VNFaceObservation], results.count > 0 {
+                    #if DEBUG
                     print("did detect \(results.count) face(s)")
+                    #endif
                     self.handleFaceDetectionResults(results)
                 } else {
+                    #if DEBUG
                     print("did not detect any face")
+                    #endif
                     self.delegate?.hasNoFace(isCIDetector: self.isCIDetector)
                 }
             }
@@ -292,16 +275,16 @@ extension FaceTracker: AVCaptureVideoDataOutputSampleBufferDelegate {
         let w = originBounds.size.width * screenW
         let h = originBounds.size.height * screenH
         let x = originBounds.origin.x * screenW
-//        let y = screenH - (originBounds.origin.y * screenH) - h*/
+        let y = screenH - (originBounds.origin.y * screenH) - h*/
         
         var facePointRect = convertRect(boundingBox: originBounds, imageSize: UIScreen.main.bounds.size)
         
         //前置摄像头的时候 记得转换
         facePointRect.origin.x = screenW - facePointRect.origin.x - facePointRect.size.width
         
-        print("face rect --- \(facePointRect)")
-        print("left eye position --- \(lefEyePosition)")
-        print("right eye position --- \(rightEyePosition)")
+//        print("face rect --- \(facePointRect)")
+//        print("left eye position --- \(lefEyePosition)")
+//        print("right eye position --- \(rightEyePosition)")
         calculateDistanceWith(
             originBounds: facePointRect,
             faceRect: facePointRect,
@@ -315,7 +298,7 @@ extension FaceTracker: AVCaptureVideoDataOutputSampleBufferDelegate {
         let w = boundingBox.size.width * imageSize.width
         let h = boundingBox.size.height * imageSize.height
         let x = boundingBox.origin.x * imageSize.width
-        let y = imageSize.height * (1 - boundingBox.origin.y - boundingBox.size.height) //- (boundingBox.origin.y * imageSize.height) - h;
+        let y = imageSize.height * (1 - boundingBox.origin.y - boundingBox.size.height) //- (boundingBox.origin.y * imageSize.height) - h
         return CGRect(x: x, y: y, width: w, height: h)
     }
     
@@ -399,7 +382,7 @@ extension FaceTracker: AVCaptureVideoDataOutputSampleBufferDelegate {
                     // Pref 与 Dref为参考值在手机成像的距离与离屏幕的距离，Psf为双眼的间距
                     // dsf = (pref / psf) * dref
                     // 1pt ≈ 0.016cm
-                    let pref = 3.3 * (UIScreen.main.bounds.size.width / 1024.0)
+                    let pref = 3.7 * (UIScreen.main.bounds.size.width / 1024.0)
                     self.distance = (pref / (abs(hasRightEyePosition.x - leftEyePosition.x) * 0.016)) * 25.0
                 }
             }
@@ -410,7 +393,9 @@ extension FaceTracker: AVCaptureVideoDataOutputSampleBufferDelegate {
             if originD == 26 || originD == 27 {
                 originD = 28
             }
-            print("face distance --- \(floor(self.distance))")
+            #if DEBUG
+            print("distance --- \(originD)")
+            #endif
             self.delegate?.faceIsTracked(faceRect: self.faceRect, withOffsetWidth: offsetWidth, andOffsetHeight: offsetHeight, andDistance: originD, isCIDetector: self.isCIDetector)
         }
     }
