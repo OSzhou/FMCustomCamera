@@ -9,9 +9,27 @@ import UIKit
 import AVFoundation
 import Vision
 // 参考: https://medium.com/onfido-tech/live-face-tracking-on-ios-using-vision-framework-adf8a1799233
+//
+//  FaceTracker.swift
+//  FaceTracker
+//
+//  Created by Zh on 2021/11/23.
+//
+
 public protocol FaceTrackerDelegate: AnyObject {
-    func faceIsTracked(faceRect: CGRect, withOffsetWidth offsetWidth: CGFloat, andOffsetHeight offsetHeight: CGFloat, andDistance distance: CGFloat, isCIDetector: Bool)
+    // faceRect：面部矩形相对相机捕获图片的位置信息
+    // distance：面部到屏幕的距离
+    // isCIDetector：是否是基于CIDetector测距，iOS10系统为true（下同）
+    // 只有检测到人脸时才会调用该方法
+    func faceIsTracked(faceRect: CGRect, andDistance distance: CGFloat, isCIDetector: Bool)
+    
+    // factor为0时 distance为面部到屏幕的实测距离
+    // factor为非0时 distance为一个浮动的渐进距离，向实测距离渐进，为做动画用
+    // 检测不到人脸时，默认返回上次的检测结果
+    // 该方法调用频次由初始化时的interval决定
     func fluentUpdateDistance(distance: CGFloat, isCIDetector: Bool)
+    
+    // 检测不到人脸时调用
     func hasNoFace(isCIDetector: Bool)
 }
 
@@ -46,11 +64,13 @@ public class FaceTracker: NSObject {
         previewLayer?.session?.stopRunning()
     }
     
-    public func fluidUpdateInterval(interval: CGFloat, withReactionFactor factor: CGFloat) {
+    // 设置刷新间隔
+    // factor 为可选参数，是否为0会影响 fluentUpdateDistance 代理的回调的distance值
+    // factor 为做动画预留，测距功能不许要传入
+    public func fluidUpdateInterval(interval: CGFloat, withReactionFactor factor: CGFloat = 0.0) {
         if factor <= 0 || factor > 1 {
             fatalError("Error! fluidUpdateInterval factor should be between 0 and 1")
         }
-        
         self.reactionFactor = factor
         self.updateInterval = interval
         self.perform(#selector(setDistance), with: nil, afterDelay: TimeInterval(interval), inModes: [.common])
@@ -59,10 +79,13 @@ public class FaceTracker: NSObject {
     @objc func setDistance() {
         // The size of the recognized face does not change fluid.
         // In order to still animate it fluient we do some calculations.
-        previousDistance = (1.0 - reactionFactor) * previousDistance +  reactionFactor * distance;
-        
-        delegate?.fluentUpdateDistance(distance: previousDistance, isCIDetector: isCIDetector)
-        
+        if reactionFactor != 0.0 {
+            previousDistance = (1.0 - reactionFactor) * previousDistance +  reactionFactor * distance;
+            delegate?.fluentUpdateDistance(distance: previousDistance, isCIDetector: isCIDetector)
+        } else {
+            delegate?.fluentUpdateDistance(distance: distance, isCIDetector: isCIDetector)
+        }
+
         // Make sure we do a recalculation 10 times every second in order to make sure we animate to the final position.
         self.perform(#selector(setDistance), with: nil, afterDelay: TimeInterval(updateInterval))
     }
@@ -294,6 +317,10 @@ extension FaceTracker: AVCaptureVideoDataOutputSampleBufferDelegate {
             hasRightEyePosition: rightEyePosition)
     }
     
+    /*
+     在返回结果中的boundingBox中的坐标，我们并不能立即使用，而是需要进行转换，
+     因为这里是相对于image的一个比例，这里需要注意的是y坐标的转换，因为坐标系的y轴和UIView的y轴是相反的。
+     */
     private func convertRect(boundingBox: CGRect, imageSize: CGSize) -> CGRect {
         let w = boundingBox.size.width * imageSize.width
         let h = boundingBox.size.height * imageSize.height
@@ -358,8 +385,8 @@ extension FaceTracker: AVCaptureVideoDataOutputSampleBufferDelegate {
     
     private func calculateDistanceWith(originBounds: CGRect, faceRect: CGRect, hasLeftEye: Bool, leftEyePosition: CGPoint, hasRightEye: Bool, hasRightEyePosition: CGPoint) {
         DispatchQueue.main.async {
-            let offsetWidth = (self.faceRect.origin.x - (160 - (self.faceRect.size.width / 2)))
-            let offsetHeight = (self.faceRect.origin.y  - ( 240 - (self.faceRect.origin.y / 2 )))
+            /*let offsetWidth = (self.faceRect.origin.x - (160 - (self.faceRect.size.width / 2)))
+            let offsetHeight = (self.faceRect.origin.y  - ( 240 - (self.faceRect.origin.y / 2 )))*/
             
             if UIDevice.current.userInterfaceIdiom == .phone {
                 // This is the current recongized distance. See the setDistance method for usages
@@ -396,7 +423,7 @@ extension FaceTracker: AVCaptureVideoDataOutputSampleBufferDelegate {
             #if DEBUG
             print("distance --- \(originD)")
             #endif
-            self.delegate?.faceIsTracked(faceRect: self.faceRect, withOffsetWidth: offsetWidth, andOffsetHeight: offsetHeight, andDistance: originD, isCIDetector: self.isCIDetector)
+            self.delegate?.faceIsTracked(faceRect: self.faceRect, andDistance: originD, isCIDetector: self.isCIDetector)
         }
     }
     
@@ -444,3 +471,4 @@ extension FaceTracker: AVCaptureVideoDataOutputSampleBufferDelegate {
         return videoBox
     }
 }
+
