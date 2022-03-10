@@ -46,6 +46,7 @@ public class FaceTracker: NSObject {
     private var videoDataOutputQueue: DispatchQueue?
     private var faceDetector: CIDetector?
     private var isCIDetector: Bool = false
+    private var isRunning: Bool = false
     
     public init(delegate: FaceTrackerDelegate) {
         super.init()
@@ -57,11 +58,20 @@ public class FaceTracker: NSObject {
     }
     
     public func startRunning() {
+        isRunning = true
         previewLayer?.session?.startRunning()
+//        fluidUpdateInterval(interval: updateInterval, withReactionFactor: reactionFactor)
     }
     
     public func stopRunning() {
+        isRunning = false
         previewLayer?.session?.stopRunning()
+    }
+    
+    deinit {
+        #if DEBUG
+        print("face tracker deinit")
+        #endif
     }
     
     // 设置刷新间隔
@@ -85,7 +95,7 @@ public class FaceTracker: NSObject {
         } else {
             delegate?.fluentUpdateDistance(distance: distance, isCIDetector: isCIDetector)
         }
-
+        guard isRunning else { return }
         // Make sure we do a recalculation 10 times every second in order to make sure we animate to the final position.
         self.perform(#selector(setDistance), with: nil, afterDelay: TimeInterval(updateInterval))
     }
@@ -96,18 +106,24 @@ public class FaceTracker: NSObject {
             session.canSetSessionPreset(.medium)
         } else {
             session.canSetSessionPreset(.photo)
-        }*/
-        session.canSetSessionPreset(.medium)
+        }
+        
+        if session.canSetSessionPreset(.medium) {
+            session.beginConfiguration()
+            session.sessionPreset = .medium
+            session.commitConfiguration()
+        }
         
         guard let device = AVCaptureDevice.default(for: .video) else { return false }
+
         guard let deviceInput = try? AVCaptureDeviceInput(device: device) else { return false}
-                
+
         if session.canAddInput(deviceInput) {
             session.addInput(deviceInput)
         }
         
         // Make a still image output
-        /*stillImageOutput = [AVCaptureStillImageOutput new];
+        stillImageOutput = [AVCaptureStillImageOutput new];
         [stillImageOutput addObserver:self forKeyPath:@"capturingStillImage" options:NSKeyValueObservingOptionNew context:@"AVCaptureStillImageIsCapturingStillImageContext"];
         if ([session canAddOutput:stillImageOutput]) {
             [session addOutput:stillImageOutput];
@@ -143,12 +159,14 @@ public class FaceTracker: NSObject {
         
         connection?.videoScaleAndCropFactor = 1.0
         
+        isRunning = true
         session.startRunning()
         
         // connect the front camara to the preview layer
         guard let frontCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else { return false }
         
         previewLayer.session?.beginConfiguration()
+        
         if let input = try? AVCaptureDeviceInput(device: frontCamera) {
             if let inputs = previewLayer.session?.inputs {
                 for oldInput in inputs {
@@ -157,6 +175,20 @@ public class FaceTracker: NSObject {
             }
             
             previewLayer.session?.addInput(input)
+            
+            // 设置采样率
+            do {
+                try frontCamera.lockForConfiguration()
+                
+                let desiredFrameDuration = CMTimeMake(value: 1, timescale: 3)
+                frontCamera.activeVideoMaxFrameDuration = desiredFrameDuration
+                frontCamera.activeVideoMinFrameDuration = desiredFrameDuration
+                
+                frontCamera.unlockForConfiguration()
+            } catch {
+                print("config front camera failure --- \(error)")
+            }
+            
             previewLayer.session?.commitConfiguration()
         }
         
@@ -414,12 +446,13 @@ extension FaceTracker: AVCaptureVideoDataOutputSampleBufferDelegate {
                 }
             }
             var originD = floor(self.distance)
-            if originD == 24 || originD == 25 {
+            if originD >= 24 , originD <= 27 { return }
+            /*if originD >= 24 , originD <= 27 {
                 originD = 23
             }
             if originD == 26 || originD == 27 {
                 originD = 28
-            }
+            }*/
             #if DEBUG
             print("distance --- \(originD)")
             #endif
@@ -471,4 +504,5 @@ extension FaceTracker: AVCaptureVideoDataOutputSampleBufferDelegate {
         return videoBox
     }
 }
+
 
